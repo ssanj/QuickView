@@ -20,7 +20,7 @@ class QuickViewCommand(sublime_plugin.TextCommand):
         symbol = window.symbol_locations(text, type=sublime.SYMBOL_TYPE_DEFINITION)
 
         if len(symbol) > 0:
-          print(symbol)
+          print(f"{symbol}")
           result = self.read_symbol_from_file(symbol[0])
           if result:
             print(f"received: {result}")
@@ -43,7 +43,12 @@ class QuickViewCommand(sublime_plugin.TextCommand):
 
     if len(lines) >= line and line > 0:
       target_line = lines[line-1].lstrip().rstrip()
-      return self.enhance_scala(lines, target_line, line-1)
+      syntax: Optional[sublime.Syntax] = self.view.syntax()
+      # TODO: move out
+      if syntax and syntax.scope == "source.scala":
+        return self.enhance_scala(lines, target_line, line-1)
+      else:
+        return lines[line-1]
     else:
       return None
 
@@ -59,15 +64,16 @@ class QuickViewCommand(sublime_plugin.TextCommand):
 
   def handle_sealed_traits(self, lines: List[str], line: str, line_index: int) -> str:
     matched_extensions: List[str] = self.find_matching_sealed_trait_extensions(0, lines, line)
+    matched_extensions.insert(0, line)
 
     # if matched_extension are also sealed, then recurse
     # TODO: do this only if there's at least a single extension
     other_matches: List[str] = []
-    for me in matched_extensions:
-      other_matches += self.find_matching_sealed_trait_extensions(1, lines, me)
+    # other_lines = list(filter(lambda l: l != line, lines))
+    # for me in matched_extensions:
+    #   other_matches += self.find_matching_sealed_trait_extensions(1, other_lines, me)
 
-    print(f"matched_extensions: {matched_extensions}")
-    matched_extensions.insert(0, line)
+    # matched_extensions.insert(0, line)
     all_matches: List[str] = matched_extensions + other_matches
     return "\n".join(all_matches)
 
@@ -80,7 +86,6 @@ class QuickViewCommand(sublime_plugin.TextCommand):
         extends_sealed_trait = f"extends {trait_name}"
         prefix = "++" * depth
         matched_extensions: List[str] = [f"{prefix} {l}" for l in lines if extends_sealed_trait in l]
-        matched_extensions.insert(0, line)
         return matched_extensions
       else:
         return []
