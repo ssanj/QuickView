@@ -16,7 +16,7 @@
 
 ## Functionality
 
-### Quickly view the definition of the symbol under the cursor
+### View definition of symbol under the cursor
 
 To open the symbol definition in a popup press `CMD + F7`.
 
