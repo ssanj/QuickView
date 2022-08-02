@@ -1,30 +1,22 @@
-# OpenSplit
+# QuickView
 
-[Sublime Text](https://www.sublimetext.com/) plugin to Open the symbol definition under the cursor in a separate group.
+[Sublime Text](https://www.sublimetext.com/) plugin to view symbol definition under the cursor in a popup.
 
-![](OpenSplit.gif)
-
-
-By default only 2 groups are supported where the group opened will be below the current one (similar to `CMD + ALT + SHIFT + 2`).
+![]()
 
 
 ## Installation
 
 - Open the command palette with `CMD + SHIT + P`
 - Select `Package Control: Add Repository`
-- Enter https://github.com/ssanj/OpenSplit for the repository
+- Enter https://github.com/ssanj/QuickView for the repository
 - Select `Package Control: Install Package`
-- Choose OpenSplit
+- Choose QuickView
 
 
 ## Functionality
 
-### Open a symbol in a Split window
+### Quickly view the definition of the symbol under the cursor
 
-To open a symbol in a split window press `F7`.
+To open the symbol definition in a popup press `CMD + F7`.
 
-![](OpenSplit-open-symbol.png)
-
-### Close the Split Window
-
-To close all the views in a split window press `SHIFT + F7`
