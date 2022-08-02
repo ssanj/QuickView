@@ -7,7 +7,7 @@
 
 ## Installation
 
-- Open the command palette with `CMD + SHIT + P`
+- Open the command palette with `CMD + SHIFT + P`
 - Select `Package Control: Add Repository`
 - Enter https://github.com/ssanj/QuickView for the repository
 - Select `Package Control: Install Package`
