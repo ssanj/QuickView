@@ -2,7 +2,7 @@
 
 [Sublime Text](https://www.sublimetext.com/) plugin to view symbol definition under the cursor in a popup.
 
-![]()
+![](quick-view.png)
 
 
 ## Installation
@@ -20,3 +20,4 @@
 
 To open the symbol definition in a popup press `CMD + F7`.
 
+![](quick-view-actions.gif)
