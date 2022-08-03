@@ -5,6 +5,8 @@ class Scala:
 
   sealed_trait_r = re.compile(r"sealed trait ([A-Z][0-9A-Za-z_]*)")
   trait_r = re.compile(r"trait [A-Z][0-9A-Za-z_]*\s+{")
+  block_start = "{"
+  block_end = "}"
 
 
   @staticmethod
@@ -53,17 +55,40 @@ class Scala:
 
   @staticmethod
   def handle_multiline_traits(lines: List[str], line: str, line_index: int) -> str:
+    block: List[str] = Scala.get_block(Scala.block_end, lines, line_index)
+
+    if len(block) > 0:
+      heading: str = Scala.clean_line(line, [Scala.block_start])
+      body: List[str] = list(map(lambda l: Scala.clean_line(l), block))
+      body.insert(0, heading)
+
+      return "\n".join(body)
+    else:
+      return line
+
+  @staticmethod
+  def clean_line(line: str, tokens_to_remove: List[str] = []) -> str:
+    cleaned = line
+
+    for t in tokens_to_remove:
+      cleaned = cleaned.replace(t, "")
+
+    # remove space characters after de-tokenizing otherwise you end up with extra spaces
+    return cleaned.lstrip().rstrip()
+
+
+  @staticmethod
+  def get_block(closer: str, lines: List[str], line_index: int) -> List[str]:
     current_line: int = line_index + 1 # move to next line
     following_lines: List[str] = []
     length_of_lines: int = len(lines)
 
     while length_of_lines > current_line:
       next_line = lines[current_line]
-      if (next_line.lstrip().rstrip() == "}"):
+      if (next_line.lstrip().rstrip() == closer):
         break
       else:
-        following_lines.append(next_line.lstrip().rstrip().replace("def", "+"))
+        following_lines.append(Scala.clean_line(next_line))
         current_line += 1
 
-    following_lines.insert(0, line.strip("{").lstrip().rstrip())
-    return "\n".join(following_lines)
+    return following_lines
