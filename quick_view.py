@@ -2,12 +2,9 @@ import sublime
 import sublime_plugin
 from typing import Optional, List
 import re
-from QuickView.scala import Scala
+from QuickView.components.scala import Scala
 
 class QuickViewCommand(sublime_plugin.TextCommand):
-
-
-
 
   def run(self, edit):
     view = self.view

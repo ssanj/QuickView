@@ -1,6 +1,6 @@
 import unittest
 from typing import Optional, List
-from scala import Scala
+from QuickView.components.scala import Scala
 
 class QuickViewScalaTest(unittest.TestCase):
 
